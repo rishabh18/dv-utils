@@ -2,7 +2,7 @@
 //creates a cash order with gharpay-like input feed
 //using token based auth
 
-$token = "c3d9a429cd84fa8bebdfc60f29f11c3f7197eaa0"; // replace this with your token key
+$token = "95d64b01c898efb99cfbb55755dd9bf7daa78b71"; // replace this with your token key
 $url = "http://test.delhivery.com/api/p/createOrder/json/?token=$token";
 $data = array();
 
@@ -30,6 +30,7 @@ $order_details['clientOrderID'] = '7723571A';
 $order_details['deliveryDate'] = '20-06-2013';
 $order_details['InvoiceUrl'] = 'www.example.com/example.html';
 $order_details['paymentMode'] = 'cash';
+$order_details['orderAmount'] = '2100';
 
 $order_feed['customerDetails'] = $customer_details;
 $order_feed['orderDetails'] = $order_details;
