@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:ns0="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://example.com/types/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:types="http://example.com/types/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+<SOAP-ENV:Header>
+<types:Headers>
+<types:username>airasia</types:username>
+<types:password>delhivery123</types:password>
+</types:Headers>
+</SOAP-ENV:Header>
+<ns0:Body>
+<ns1:viewOrderStatus>
+<ns1:wbn>65310000011</ns1:wbn>
+</ns1:viewOrderStatus>
+</ns0:Body>
+</SOAP-ENV:Envelope>

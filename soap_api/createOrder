@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:ns0="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://example.com/types/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:types="http://example.com/types/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+<SOAP-ENV:Header>
+<types:Headers>
+<types:username>airasia</types:username>
+<types:password>delhivery123</types:password>
+</types:Headers>
+</SOAP-ENV:Header>
+<ns0:Body>
+<ns1:createOrder>
+<ns1:orderDict>
+<ns1:customerDetails>
+<ns1:firstName>username</ns1:firstName>
+<ns1:lastName>last name</ns1:lastName>
+<ns1:contactNo>9871160555</ns1:contactNo>
+<ns1:prefix>Mr</ns1:prefix>
+<ns1:address>Detailed Address</ns1:address>
+<ns1:email>karan.agarwl@gmail.com</ns1:email>
+</ns1:customerDetails>
+<ns1:orderDetails>
+<ns1:clientOrderID>airasia100</ns1:clientOrderID>
+<ns1:InvoiceUrl>http://delhivery.com/</ns1:InvoiceUrl>
+<ns1:pincode>110054</ns1:pincode>
+<ns1:productDetails>
+<ns1:productDescription>This is a test order for air asia</ns1:productDescription>
+</ns1:productDetails>
+<ns1:orderAmount>30000.0</ns1:orderAmount>
+<ns1:deliveryDate>2013-09-18</ns1:deliveryDate>
+</ns1:orderDetails>
+</ns1:orderDict>
+</ns1:createOrder>
+</ns0:Body>
+</SOAP-ENV:Envelope>
