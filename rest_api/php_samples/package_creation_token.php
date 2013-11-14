@@ -2,7 +2,7 @@
 //creates a package with delhivery complaint input feed
 //using token based auth
 
-$token = "c3d9a429cd84fa8bebdfc60f29f11c3f7197eaa0"; // replace this with your token key
+$token = "###################"; // replace this with your token key
 $url = "http://test.delhivery.com/cmu/push/json/?token=$token";
 
 $params = array(); // this will contain request meta and the package feed
