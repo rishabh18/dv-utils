@@ -1,9 +1,6 @@
 <?php
-//creates a package with delhivery complaint input feed
-//using token based auth
-
-$token = "###################"; // replace this with your token key
-$url = "http://test.delhivery.com/cmu/push/json/?token=$token";
+$token = "#########################"; // replace this with your token key
+$url = "http://test.delhivery.com/cmu/push/json/?token=".$token;
 
 $params = array(); // this will contain request meta and the package feed
 $package_data = array(); // package data feed
@@ -11,7 +8,7 @@ $shipments = array();
 
 /////////////start: building the package feed/////////////////////
 $shipment = array();
-$shipment['client'] = 'Gharpay';
+$shipment['client'] = '100bestbuy';
 $shipment['name'] = 'John Kapoor'; // consignee name
 $shipment['order'] = '3002199824D'; // client order number
 $shipment['products_desc'] = 'Resume services';
@@ -30,19 +27,15 @@ $shipments = array($shipment);
 
 $package_data['shipments'] = $shipments;
 /////////////end: building the package feed/////////////////////
-
-$params['format'] = 'json'; // input data format
-$params['data'] = json_encode($package_data);
-
+$params['format'] = 'json';
+$params['data'] =json_encode($package_data);
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($params));
+curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
 $result = curl_exec($ch);
-
-
 print_r($result);
 curl_close($ch);
 
