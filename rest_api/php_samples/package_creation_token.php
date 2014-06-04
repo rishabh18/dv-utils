@@ -1,16 +1,17 @@
 <?php
-$token = "#########################"; // replace this with your token key
+$token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"; // replace this with your token key
 $url = "http://test.delhivery.com/cmu/push/json/?token=".$token;
 
 $params = array(); // this will contain request meta and the package feed
 $package_data = array(); // package data feed
 $shipments = array();
+$pickup_location = array();
 
 /////////////start: building the package feed/////////////////////
 $shipment = array();
-$shipment['client'] = '100bestbuy';
+$shipment['client'] = 'client_name';
 $shipment['name'] = 'John Kapoor'; // consignee name
-$shipment['order'] = '3002199824D'; // client order number
+$shipment['order'] = '3002199823224D'; // client order number
 $shipment['products_desc'] = 'Resume services';
 $shipment['order_date'] = '2013-04-08T18:30:00+00:00'; // ISO Format
 $shipment['payment_mode'] = 'Cash';
@@ -23,10 +24,19 @@ $shipment['country'] = 'India';
 $shipment['phone'] = '9741119727';
 $shipment['pin'] = '122002';
 
+// pickup location information //
+$pickup_location['add'] = '113 Barthal, Dundahera';
+$pickup_location['city'] = 'New Delhi';
+$pickup_location['country'] ='India';
+$pickup_location['name'] = 'client_location';  // Use client warehouse name
+$pickup_location['phone'] = '011-23456245';
+$pickup_location['pin'] = '110070';
+$pickup_location['state'] = 'Delhi';
+
 $shipments = array($shipment);
 
 $package_data['shipments'] = $shipments;
-/////////////end: building the package feed/////////////////////
+$package_data['pickup_location'] = $pickup_location;
 $params['format'] = 'json';
 $params['data'] =json_encode($package_data);
 
