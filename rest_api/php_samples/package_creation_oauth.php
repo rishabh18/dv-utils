@@ -19,7 +19,6 @@ $shipments = array();
 
 /////////////start: building the package feed/////////////////////
 $shipment = array();
-$shipment['client'] = 'Gharpay';
 $shipment['name'] = 'John Kapoor'; // consignee name
 $shipment['order'] = '3002199824B'; // client order number
 $shipment['products_desc'] = 'Resume services';
