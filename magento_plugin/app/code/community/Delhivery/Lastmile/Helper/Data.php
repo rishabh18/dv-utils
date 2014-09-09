@@ -29,7 +29,7 @@ class Delhivery_Lastmile_Helper_Data extends Mage_Core_Helper_Abstract {
 				curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
 			endif;	
 			$retValue = curl_exec($ch);
-			mage::log($retValue);
+			//mage::log($retValue);
 			curl_close($ch);
 			return $retValue;	
     }

@@ -24,7 +24,10 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php /** @var $this Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking */ ?>
+<?php /** @var $this Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Tracking */ ?>
+<?php $_order = $this->getInvoice()->getOrder(); 
+?>
+<?php $zipcode = $_order->getShippingAddress()->getPostcode() ?>
 <script type="text/javascript">
 //<![CDATA[
 var trackingControl;
@@ -56,8 +59,15 @@ trackingControl = {
         }.bind(this));
     },
     currierOnchange : function(event) {
+	 
         var elem = Event.element(event);
+		var textboxid = elem.id.replace('trackingC','trackingN');
+		$(textboxid).disabled = false;
+		$(textboxid).value = '';
         var option = elem.options[elem.selectedIndex];
+		 if (option.value && option.value == 'dlastmile') {
+			 submitAjaxData(elem.id);			 			 
+		 }
         if (option.value && option.value != 'custom') {
             elem.valueInput.value = option.text;
         }
@@ -76,9 +86,9 @@ trackingControl = {
     <col width="80" />
     <thead>
         <tr class="headings">
-            <th><?php echo Mage::helper('sales')->__('Carrier') ?></th>
+            <th><?php echo Mage::helper('sales')->__('Carrier') ?></th>  
             <th><?php echo Mage::helper('sales')->__('Title') ?></th>
-            <th><?php echo Mage::helper('sales')->__('Number') ?></th>
+            <th><?php echo Mage::helper('sales')->__('Number') ?> <span class="required">*</span></th>
             <th class="last"><?php echo Mage::helper('sales')->__('Action') ?></th>
         </tr>
     </thead>
@@ -86,6 +96,7 @@ trackingControl = {
         <tr>
             <td colspan="4" class="a-center last" style="padding:8px;"><?php echo $this->getChildHtml('add_button') ?></td>
         </tr>
+
     </tfoot>
     <tbody id="track_row_container">
         <tr id="track_row_template" class="template no-display">
@@ -97,7 +108,7 @@ trackingControl = {
                 </select>
             </td>
             <td><input class="input-text number-title" type="text" name="tracking[__index__][title]" id="trackingT__index__" value="" disabled="disabled" /></td>
-            <td><input class="input-text" type="text" name="tracking[__index__][number]" id="trackingN__index__" value="" disabled="disabled" /></td>
+            <td><input class="input-text required-entry" type="text" name="tracking[__index__][number]" id="trackingN__index__" value="" disabled="disabled" /></td>
             <td class="last"><a href="#" onclick="trackingControl.deleteRow(event);return false"><?php echo $this->__('Delete') ?></a></td>
         </tr>
     </tbody>
@@ -106,5 +117,49 @@ trackingControl = {
 <script type="text/javascript">
 //<![CDATA[
 trackingControl.template = new Template('<tr>' + $('track_row_template').innerHTML.replace(/__index__/g, '#{index}') + '<\/tr>');
+function submitAjaxData(valueofrow ){
+var url ="<?php echo Mage::helper('adminhtml')->getUrl("lastmile/adminhtml_lastmile/getAWB")?>";
+       new Ajax.Request(url, {
+            method:'post'
+            , parameters: {   
+				 zipcode: '<?php echo $zipcode?>',
+				 orderid: '<?php echo $_order->getId();?>'
+                } 
+            , requestHeaders: {Accept: 'application/json'},
+            onSuccess: function(transport) {
+                retjson = transport.responseText.evalJSON();
+				var textboxid = valueofrow.replace('trackingC','trackingN');
+				document.getElementById(textboxid).setAttribute("readonly", "true");
+				if(/\d{1,9}/.test(retjson.resp[0].awb))
+					document.getElementById(textboxid).value = retjson.resp[0].awb;
+				else
+					alert(retjson.resp[0].awb);
+					
+				//console.info(textboxid);
+				//console.info(retjson.resp);
+				/*document.getElementById('shblocks').style.display='none';
+                document.getElementById('messageshblocks').innerHTML = retjson.resp ;
+				 document.getElementById('messageshblocks').style.display = '';*/
+             }
+          });
+}
+function setAWBStatusAjaxData( ){
+var url ="<?php echo Mage::helper('adminhtml')->getUrl("lastmile/adminhtml_lastmile/setAWBStatus")?>";
+       new Ajax.Request(url, {
+            method:'post'
+            , parameters: {           
+                } 
+            , requestHeaders: {Accept: 'application/json'},
+            onSuccess: function(transport) {
+               
+				//console.info(textboxid);
+				//console.info(retjson.resp);
+				/*document.getElementById('shblocks').style.display='none';
+                document.getElementById('messageshblocks').innerHTML = retjson.resp ;
+				 document.getElementById('messageshblocks').style.display = '';*/
+             }
+          });
+}
+setAWBStatusAjaxData();
 //]]>
 </script>

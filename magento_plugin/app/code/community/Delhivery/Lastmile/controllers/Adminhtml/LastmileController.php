@@ -64,16 +64,22 @@ class Delhivery_Lastmile_Adminhtml_LastmileController extends Mage_Adminhtml_Con
 		$token = Mage::getStoreConfig('carriers/dlastmile/licensekey');
 		if($apiurl && $token && $cl)
 		{
-			$path = $apiurl.'json/?token='.$token.'&count=50&cl='.$cl;	
+			$path = $apiurl.'json/?token='.$token.'&count=50&cl='.urlencode($cl);
+			mage::log($path);	
 			$retValue = Mage::helper('lastmile')->Executecurl($path,'','');
 			$codes = json_decode($retValue);
-			$awbs = explode(',',$codes);	
-			foreach ($awbs as $awb) {		   
-			   $data = array();
-			   $data['awb'] = $awb;
-			   $data['state'] = 2;
-			   $model->setData($data);
-			   $model->save();  
+			mage::log($codes);
+			$awbs = explode(',',$codes);
+			mage::log($awbs);
+			if(sizeof($awbs))
+			{	
+				foreach ($awbs as $awb) {		   
+				   $data = array();
+				   $data['awb'] = $awb;
+				   $data['state'] = 2;
+				   $model->setData($data);
+				   $model->save();  
+				}
 			}
 			Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('lastmile')->__('AWB Downloaded Successfully'));
 		}
@@ -136,12 +142,14 @@ class Delhivery_Lastmile_Adminhtml_LastmileController extends Mage_Adminhtml_Con
 		{
 		$token = "$token"; // replace this with your token key
 		$url .= "cmu/push/json/?token=".$token;
+		mage::log($url);
 		$succsscount = 0;
 		$failcount = 0;
 		$msg = '';
 		foreach ($waybills as $waybill) {
 				$model = Mage::getModel('lastmile/lastmile')->load($waybill);
                 if($model->status == 'Assigned'): // Submit only if status is assigned
+				mage::log("Submitting Only Assigned");
 				$order = Mage::getModel('sales/order')->load($model->orderid);
 				$address = Mage::getModel('sales/order_address')->load($order->shipping_address_id);				 
 				$products = $order->getAllItems();
@@ -177,11 +185,14 @@ class Delhivery_Lastmile_Adminhtml_LastmileController extends Mage_Adminhtml_Con
 				$shipments = array($shipment);
 				
 				$package_data['shipments'] = $shipments;
+				mage::log($package_data);
 				/////////////end: building the package feed/////////////////////
 				$params['format'] = 'json';
 				$params['data'] = json_encode($package_data);
+				mage::log($url);
 				$result = Mage::helper('lastmile')->Executecurl($url,'post',$params);
 				$result = json_decode($result);
+				mage::log($result);
 				if($result->success):
 					$model->setData('status','InTransit')->save();
 					$msg .= "$model->awb Submitted Successfully<br />";
@@ -245,7 +256,6 @@ class Delhivery_Lastmile_Adminhtml_LastmileController extends Mage_Adminhtml_Con
 				$resourceid = Mage::getModel('lastmile/pincode')->loadByPin($zipcode);
 				$zipdeatils = Mage::getModel('lastmile/pincode')->load($resourceid);
 				
-				//mage::log($zipdeatils);
 				if((!$resourceid ) || ( $zipdeatils->pre_paid != 'Y') || ($payment_method_code == 'cashondelivery' && $zipdeatils->cod != 'Y'))
 				   $msg = "Order PinCode is not serviceable by Delhivery.";
 				else
@@ -253,9 +263,10 @@ class Delhivery_Lastmile_Adminhtml_LastmileController extends Mage_Adminhtml_Con
 					$tableName = Mage::getSingleton('core/resource')->getTableName('lastmile/lastmile');
 					$query="SELECT * FROM $tableName WHERE state = 2 ORDER BY lastmile_id ASC LIMIT 1";
 					mage::log($query);
+					mage::log("Zipcode servicesable");
 					$data  = Mage::getSingleton('core/resource')->getConnection('core_read')->fetchAll($query);
 					mage::log($data);					
-					if(!count($data))
+					if(!count($data) || $data[0]['awb'] == '')
 					{
 						$msg = 'AWB number is not available. Please download more AWB';
 					}
@@ -275,6 +286,7 @@ class Delhivery_Lastmile_Adminhtml_LastmileController extends Mage_Adminhtml_Con
 			{
 				$data = array();
 				$data[0]['awb'] = $msg;
+				mage::log("AWB Found and sending via ajax");
 			}
 			  $output = array();
 			  $output['resp'] = $data;
@@ -357,5 +369,19 @@ class Delhivery_Lastmile_Adminhtml_LastmileController extends Mage_Adminhtml_Con
 	}
 	$this->_redirect('*/*/');
 }
+    protected function _sendUploadResponse($fileName, $content, $contentType='application/octet-stream') {
+        $response = $this->getResponse();
+        $response->setHeader('HTTP/1.1 200 OK', '');
+        $response->setHeader('Pragma', 'public', true);
+        $response->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true);
+        $response->setHeader('Content-Disposition', 'attachment; filename=' . $fileName);
+        $response->setHeader('Last-Modified', date('r'));
+        $response->setHeader('Accept-Ranges', 'bytes');
+        $response->setHeader('Content-Length', strlen($content));
+        $response->setHeader('Content-type', $contentType);
+        $response->setBody($content);
+        $response->sendResponse();
+        die;
+    }
 		
 }

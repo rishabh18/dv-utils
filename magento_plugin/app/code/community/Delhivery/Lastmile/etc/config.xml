@@ -166,7 +166,12 @@
         <blocks>
             <lastmile>
                 <class>Delhivery_Lastmile_Block</class>
-            </lastmile>            
+            </lastmile>   
+            <adminhtml>
+                <rewrite>
+                    <sales_order_invoice_create_tracking>Delhivery_Lastmile_Block_Adminhtml_Sales_Order_Invoice_Create_Tracking</sales_order_invoice_create_tracking>
+                </rewrite>
+            </adminhtml>						         
         </blocks>
         <helpers>
             <lastmile>

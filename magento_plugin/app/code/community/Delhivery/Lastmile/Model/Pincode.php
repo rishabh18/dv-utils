@@ -26,6 +26,33 @@ class Delhivery_Lastmile_Model_Pincode extends Mage_Core_Model_Abstract {
 		mage::log("$query");
 		$data = $readConnection->fetchOne($query);
         return $data;
-    }		
+    }	
+    /**
+     * Function to get last updated date of pincode
+     *
+     * @return date in yyyy-mm-dd format
+     */		
+    public function getUpdatedate()
+    {
+        $resource = Mage::getSingleton('core/resource');
+		$readConnection = $resource->getConnection('core_read');
+		$query = "SELECT DATE_FORMAT(update_time,'%Y-%m-%d') FROM " . $resource->getTableName('lastmile/pincode')." ORDER BY update_time DESC LIMIT 1";
+		mage::log("$query");
+		$data = $readConnection->fetchOne($query);
+        return $data;
+    }
+    /**
+     * Function to get last updated date of pincode
+     *
+     * @return date in yyyy-mm-dd format
+     */		
+    public function deleteAll()
+    {
+        $resource = Mage::getSingleton('core/resource');
+		$readConnection = $resource->getConnection('core_read');
+		$query = "TRUNCATE TABLE ".$resource->getTableName('lastmile/pincode');
+		$readConnection->query($query);		
+    }					
+		
 
 }

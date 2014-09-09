@@ -52,21 +52,23 @@ class Delhivery_Lastmile_Adminhtml_PincodeController extends Mage_Adminhtml_Cont
 		$token = Mage::getStoreConfig('carriers/dlastmile/licensekey');
 		if($apiurl && $token)
 		{
-			$path = $apiurl.'json/?token='.$token;		
-			/*$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, "$path");
-			curl_setopt($ch, CURLOPT_FAILONERROR, 1);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-			$retValue = curl_exec($ch);
-			curl_close($ch);*/
+			//$path = $apiurl.'json/?pre-paid=Y&token='.$token;
+			$path = $apiurl.'json/?token='.$token.'&pre-paid=Y';
+			$date = Mage::getModel('lastmile/pincode')->getUpdatedate();
+			//if($date)
+			//$path .= "&dt=$date";
+			//mage::log($path);
 			$retValue = Mage::helper('lastmile')->Executecurl($path,'','');
 			$codes = json_decode($retValue);
-			//echo "Pincode database updated successfully...";
-			$i = 0;
-			foreach ($codes->delivery_codes as $item) {
-			   $lastmilezip = Mage::getModel('lastmile/pincode')->loadByPin($item->postal_code->pin);
+			mage::log(sizeof($codes->delivery_codes));
+			//mage::log($codes);
+			// Delete all zipcodes
+			$delete = Mage::getModel('lastmile/pincode')->deleteAll();
+			if(sizeof($codes))
+			{			   
+			   foreach ($codes->delivery_codes as $item) {
+			   try {
+			   //$lastmilezip = Mage::getModel('lastmile/pincode')->loadByPin($item->postal_code->pin);
 			   $model = Mage::getModel('lastmile/pincode');
 			   $data = array();
 			   $data['district'] = $item->postal_code->district;
@@ -78,11 +80,22 @@ class Delhivery_Lastmile_Adminhtml_PincodeController extends Mage_Adminhtml_Cont
 			   $data['is_oda'] = $item->postal_code->is_oda;
 			   $data['state_code'] = $item->postal_code->state_code;
 			   $model->setData($data);
+			   mage::log($data);
 			   if($lastmilezip)
 			   $model->setId($lastmilezip->getId());
-			   $model->save();		        			
+               if ($model->getCreatedTime == NULL || $model->getUpdateTime() == NULL) {
+                    $model->setCreatedTime(now())
+                            ->setUpdateTime(now());
+               } else {
+                    $model->setUpdateTime(now());
+               }			   
+			   $model->save();	
+			   } catch (Exception $e) {
+			   echo 'Caught exception: ',  $e->getMessage(), "\n";
+			   Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+			   }
 			}
-			echo "<br />Pincode database updated successfully...";
+			}
 			Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('lastmile')->__('Pincode Updated Successfully'));
 		}
 		else

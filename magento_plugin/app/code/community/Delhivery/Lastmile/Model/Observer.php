@@ -34,6 +34,8 @@
 			$data['state'] = 1;
 			$data['status'] = "Assigned";
 			$data['orderid'] = $order->getId();
+			$data['shipment_to'] = $order->getShippingAddress()->getName();
+			$data['shipment_id'] = $track->getShipment()->getIncrementId();
 			mage::log($data);
 			$model->setData($data);
 			$model->setId($awbobj);			

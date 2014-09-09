@@ -40,7 +40,14 @@ class Delhivery_Lastmile_Block_Adminhtml_Lastmile_Grid extends Delhivery_Lastmil
             'header' => Mage::helper('lastmile')->__('AWB'),
             'index' => 'awb',
         ));
-
+		$this->addColumn('shipment_to', array(
+            'header' => Mage::helper('lastmile')->__('Ship to'),
+            'index' => 'shipment_to',
+        ));
+        $this->addColumn('shipment_id', array(
+            'header' => Mage::helper('lastmile')->__('Shipment#'),
+            'index' => 'shipment_id',
+        ));		
         $this->addColumn('state', array(
             'header' => Mage::helper('lastmile')->__('State'),
             'align' => 'left',
@@ -74,7 +81,7 @@ class Delhivery_Lastmile_Block_Adminhtml_Lastmile_Grid extends Delhivery_Lastmil
         ));		
         $this->addColumn('orderid', array(
             'header' => Mage::helper('lastmile')->__('Order#'),
-            'index' => 'orderid',
+            'renderer' => new Delhivery_Lastmile_Block_Adminhtml_Renderer_Orderid(),
         ));
 		$this->addColumn('orderstatus', array(
             'header' => Mage::helper('lastmile')->__('Order Status'),
@@ -83,9 +90,6 @@ class Delhivery_Lastmile_Block_Adminhtml_Lastmile_Grid extends Delhivery_Lastmil
             'type' => 'options',
 			'renderer' => new Delhivery_Lastmile_Block_Adminhtml_Renderer_Orderstatus(),
         ));
-        
-       
-
         $this->addExportType('*/*/exportCsv', Mage::helper('lastmile')->__('CSV'));
         $this->addExportType('*/*/exportXml', Mage::helper('lastmile')->__('XML'));
 

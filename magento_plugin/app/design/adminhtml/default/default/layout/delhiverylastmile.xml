@@ -27,7 +27,14 @@
     <lastmile_adminhtml_lastmile_edit>
         <update handle="editor"/>
     </lastmile_adminhtml_lastmile_edit>
-    <adminhtml_sales_order_shipment_new>
+    <adminhtml_sales_order_invoice_new>
+        <reference name="invoice_tracking">
+            <action method="setTemplate">
+                <template>delhiverylastmile/invoice/tracking.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_sales_order_invoice_new>
+	<adminhtml_sales_order_shipment_new>
         <reference name="shipment_tracking">
             <action method="setTemplate">
                 <template>delhiverylastmile/shipment/tracking.phtml</template>

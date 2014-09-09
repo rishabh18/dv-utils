@@ -42,8 +42,8 @@ class Delhivery_Lastmile_Model_Shippinglabel extends Mage_Core_Model_Abstract {
             if (is_file($image)) {
                 $image       = Zend_Pdf_Image::imageWithPath($image);
                 $top         = $pos; //top border of the page
-                $widthLimit  = 120; //half of the page width
-                $heightLimit = 80; //assuming the image is not a "skyscraper"
+                $widthLimit  = 100; //half of the page width
+                $heightLimit = 70; //assuming the image is not a "skyscraper"
                 $width       = $image->getPixelWidth();
                 $height      = $image->getPixelHeight();
 
@@ -70,7 +70,7 @@ class Delhivery_Lastmile_Model_Shippinglabel extends Mage_Core_Model_Abstract {
 				
 
 				// Add Order ID, Date and COD amount
-				$this->_setFontRegular($page, 10);
+				$this->_setFontRegular($page, 7);
 				$page->drawText(Mage::helper('sales')->__('Order # ') . $order->getRealOrderId(), $x1+190, ($y1+25), 'UTF-8');
 				$page->drawText(Mage::helper('sales')->__('Order Date: ') . Mage::helper('core')->formatDate(
                 $order->getCreatedAtStoreDate(), 'medium', false), $x1+190, ($y1+15), 'UTF-8');
@@ -83,14 +83,14 @@ class Delhivery_Lastmile_Model_Shippinglabel extends Mage_Core_Model_Abstract {
 				$page->setFont(Zend_Pdf_Font::fontWithPath($fontPath), 30);
 				$barcodeImage = "*".$waybill."*";
 				$page->drawText($barcodeImage, $x1+390, $y1+12);				
-		        $this->_setFontRegular($page, 10);
+		        $this->_setFontRegular($page, 7);
 				$page->drawText("*", $x1+385, $y1+15);
 				$page->drawText("*", $x1+540, $y1+15);
 				$page->drawText("AWB# $waybill", $x1+420, $y1+2);
-				$this->_setFontBold($page, 10);
+				$this->_setFontBold($page, 8);
 				$page->drawText("Ship to:", $x1+390, $y1-15);
 				$page->drawText("From:", $x1, $y1-15);
-				$this->_setFontRegular($page, 9);
+				$this->_setFontRegular($page, 7);
 				// Add Shipping Address
 				$shippingAddress = $this->_formatAddress($order->getShippingAddress()->format('pdf'));				
 				$addressy = $y1-25;

@@ -19,6 +19,8 @@ $installer->run("
 CREATE TABLE {$this->getTable('delhivery_lm_awb')} (
   `lastmile_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `awb` varchar(255) NOT NULL DEFAULT '',
+  `shipment_id` int(11) NOT NULL,
+  `shipment_to` varchar(255) NOT NULL DEFAULT '',
   `state` tinyint(1) NOT NULL DEFAULT '2' COMMENT '2= Unused, 1= Used',
   `orderid` varchar(20) DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL,
