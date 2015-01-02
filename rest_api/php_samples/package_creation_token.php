@@ -6,6 +6,7 @@ $params = array(); // this will contain request meta and the package feed
 $package_data = array(); // package data feed
 $shipments = array();
 $pickup_location = array();
+$seller = array()
 
 /////////////start: building the package feed/////////////////////
 $shipment = array();
@@ -22,6 +23,9 @@ $shipment['state'] = 'Haryana';
 $shipment['country'] = 'India';
 $shipment['phone'] = '9741119727';
 $shipment['pin'] = '122002';
+$shipment['quantity'] = 1, // quanitity of quantity
+$shipment['invoice_number']= 'invoice_number', // invoice number of shipment
+$shipment['invoice_date']= '2013-04-08T18:30:00+00:00'; // ISO Format
 
 // pickup location information //
 $pickup_location['add'] = '113 Barthal, Dundahera';
@@ -32,10 +36,17 @@ $pickup_location['phone'] = '011-23456245';
 $pickup_location['pin'] = '110070';
 $pickup_location['state'] = 'Delhi';
 
+$seller['name']='seller', //name of seller
+$seller['add']='add of seller', // add of seller
+$seller['cst'] = 'cst no of seller', //cst number of seller
+$seller['tin'] = 'tin no of seller',  //tin number of seller
+
+
 $shipments = array($shipment);
 
 $package_data['shipments'] = $shipments;
 $package_data['pickup_location'] = $pickup_location;
+$package_data['seller'] = $seller
 $params['format'] = 'json';
 $params['data'] =json_encode($package_data);
 
