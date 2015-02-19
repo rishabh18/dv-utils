@@ -9,6 +9,7 @@ $pickup_location = array();
 
 /////////////start: building the package feed/////////////////////
 $shipment = array();
+$shipment['waybill'] = 'xxxxxxxxx'; // waybill number
 $shipment['name'] = 'John Kapoor'; // consignee name
 $shipment['order'] = '3002199823224D'; // client order number
 $shipment['products_desc'] = 'Resume services';
