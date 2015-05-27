@@ -29,7 +29,7 @@ shipments= [{
         "dimensions": "0.00CM x 0.00CM x 0.00CM",
         "volumetric": 0.0,
         "weight": "650.0 gm",
-	"product_quantity": 1, # quantity of goods, positive integer
+	"quantity": 1, # quantity of goods, positive integer
 	"seller_inv": "invoice number",
 	"seller_inv_date": 'YYYY-MM-DDTHH:MM:SS+05:30', # ISO format
 	"seller_name": "seller name", # name of seller
