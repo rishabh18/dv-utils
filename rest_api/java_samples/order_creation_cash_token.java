@@ -7,7 +7,7 @@ String payload ="""
 <transaction>
 <customerDetails>
 <address>test address</address>
-<contactNo>1234567890</contactNo>
+<contactNo>xxxxxxxxxxx</contactNo>
 <email>naresh+90@thinkvidya.com</email>
 <firstName>naresh</firstName>
 <lastName>nasireddi</lastName>
