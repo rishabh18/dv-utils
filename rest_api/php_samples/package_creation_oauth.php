@@ -30,7 +30,7 @@ $shipment['add'] = 'M25, Nelson Marg, GBP City Phase 1'; // consignee address
 $shipment['city'] = 'Gurgaon';
 $shipment['state'] = 'Haryana';
 $shipment['country'] = 'India';
-$shipment['phone'] = '9741119727';
+$shipment['phone'] = 'xxxxxxxxxxxxxx';
 $shipment['pin'] = '122002';
 
 $shipments = array($shipment);
