@@ -11,7 +11,7 @@ var jsonCreatePackageData = function(){
     "order": '3002199823224D'
     "payment_mode":'cash',
     "order_date":'2013-04-08T18:30:00+00:00',
-    "phone":'9741119727',
+    "phone":'xxxxxxxxx',
     "products_desc": 'Resume services',
     "quantity":1,
     "total_amount":21841.0,
