@@ -15,7 +15,7 @@ shipments= [{
         "city": "Gurgaon",
         "state": "Haryana",
         "country": "India",
-        "phone": "9741119727",
+        "phone": "xxxxxxxxxxxx",
         "pin": "122002",
         "return_add": "",
         "return_city": "",
