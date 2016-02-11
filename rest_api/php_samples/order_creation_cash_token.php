@@ -13,7 +13,7 @@ $order_details = array();
 $product_details = array();
 
 $customer_details['address'] = 'test address';
-$customer_details['contactNo'] = '9871160555';
+$customer_details['contactNo'] = 'xxxxxxxxxxxxxxx';
 $customer_details['email'] = 'tech.admin@delhivery.com';
 $customer_details['firstName'] = 'karan';
 $customer_details['lastName'] = 'agarwal';
